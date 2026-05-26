@@ -1,39 +1,73 @@
 # Atulya Office
 
-One-click Excel, Word, Outlook and PowerPoint automation tools.
+> **One-click automations for spreadsheets, documents, email and presentations.** 📊📝
 
-## Features
+![Atulya - One-click business automation](assets/atulya-hero.png)
 
-### Excel
-- Merge, split, compare workbooks
-- Search/replace across sheets
-- Batch CSV/Excel conversion
-- Formula injection & cleanup
-- Chart generation
+![Status](https://img.shields.io/badge/status-roadmap-f59e0b)
+![Apps](https://img.shields.io/badge/apps-Excel%20%7C%20Word%20%7C%20Outlook%20%7C%20PowerPoint-2563eb)
+![Automation](https://img.shields.io/badge/automation-templates%20%7C%20macros%20%7C%20AI-14b8a6)
 
-### Word
-- Mail merge from Excel data
-- Batch DOCX template filling
-- Document comparison
+Atulya Office is planned as a free toolbox for repetitive office work: clean sheets, generate letters, build presentations, organize mail attachments and turn plain-English requirements into formulas or approved automation steps.
 
-### Outlook
-- Read, search, send emails programmatically
-- Auto-archive old emails
-- Export emails to Excel/PDF
-- Rule-based email processing
+> 🚧 This repository is currently the product roadmap. Macros, add-ins and installers will be published as they are implemented and tested.
 
-### PowerPoint
-- Batch slide generation from templates
-- Export slides to images/PDF
+## 💬 Example Requests
 
-## Quick Start
+| User request | Planned result |
+|---|---|
+| "Merge all branch reports and remove duplicate invoices" | Clean consolidated Excel workbook |
+| "Give me a formula for overdue invoices above 30 days" | Excel formula with explanation and sample |
+| "Create offer letters from this employee sheet" | Word documents and PDFs |
+| "Make monthly sales slides from this workbook" | PowerPoint presentation |
+| "Save invoice attachments by vendor" | Reviewed Outlook automation rule |
 
-```bash
-pip install atulya-office
-atulya-office excel merge --files *.xlsx --output merged.xlsx
-atulya-office outlook send --to user@example.com --subject "Report" --body "Attached" --attach report.pdf
+## 🧰 Automation Packs
+
+| Pack | Tools |
+|---|---|
+| Excel | Merge, split, compare, formulas, dashboards, reconciliation |
+| Word | Template fill, letters, contracts, certificates and PDF output |
+| Outlook | Attachment organizer, mail merge, reminders and action extraction |
+| PowerPoint | Monthly decks, chart refresh and template-based slide creation |
+| Formula AI | Prompt-to-formula, formula repair and plain-English explanation |
+
+## 🖱️ Planned Setup
+
+- Desktop installer for Windows, macOS and Linux for file-first tools.
+- Office add-in path for supported Excel/Word/PowerPoint environments.
+- Signed VBA templates for workflows that specifically require desktop Office.
+- Sample workbooks and a safe preview before modifying source files.
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+    PROMPT["Prompt / Preset"] --> PLAN["Preview Plan"]
+    FILES["Office Files"] --> ENGINE["Automation Engine"]
+    PLAN --> ENGINE
+    ENGINE --> ADAPTER["Office Adapter or File Library"]
+    ADAPTER --> OUTPUT["New Files + Change Log"]
 ```
 
-## License
+## 🗺️ Roadmap
 
-MIT
+| Phase | Delivery |
+|---|---|
+| 1 | Excel cleaner/merger, formula assistant and template gallery |
+| 2 | Word mail merge and document generation |
+| 3 | PowerPoint report generation from Excel |
+| 4 | Outlook attachments and approved email workflows |
+| 5 | Cross-platform add-in and Atulya One integration |
+
+## 🔐 Trust Rules
+
+Original files should be preserved by default. Email sending, macros and external AI calls must be visible and user-approved. Sensitive document content should support fully local processing.
+
+## 🔗 Ecosystem
+
+[Atulya DataClean](https://github.com/atulyaai/Atulya-DataClean) · [Atulya Invoice](https://github.com/atulyaai/Atulya-Invoice) · [Atulya SAP](https://github.com/atulyaai/Atulya-SAP) · [Atulya One](https://github.com/atulyaai/Atulya-One)
+
+## 📜 License
+
+MIT planned for Atulya-authored automation templates and source.
