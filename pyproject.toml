@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "atulya-office"
+dynamic = ["version"]
+description = "Cross-platform Python CLI for automating Excel, Word, Outlook, and PowerPoint"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "openpyxl>=3.1.0",
+    "python-pptx>=0.6.21",
+    "python-dotenv>=1.0.0",
+    "xlsxwriter>=3.1.0",
+    "pandas>=1.3.0",
+    "rich>=13.0.0",
+]
+optional-dependencies = { win32 = ["pywin32>=306; sys_platform == 'win32'"] }
+
+[project.urls]
+Homepage = "https://github.com/anomalyco/atulya-office"
+
+[project.scripts]
+atulya-office = "atulya_office.cli:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "atulya_office.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
