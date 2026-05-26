@@ -66,7 +66,7 @@ Original files should be preserved by default. Email sending, macros and externa
 
 ## 🔗 Ecosystem
 
-[Atulya DataClean](https://github.com/atulyaai/Atulya-DataClean) · [Atulya Invoice](https://github.com/atulyaai/Atulya-Invoice) · [Atulya SAP](https://github.com/atulyaai/Atulya-SAP) · [Atulya One](https://github.com/atulyaai/Atulya-One)
+[Atulya DataClean](https://github.com/atulyaai/Atulya-Data-Scruber) · [Atulya Invoice](https://github.com/atulyaai/Atulya-Invoice) · [Atulya SAP](https://github.com/atulyaai/Atulya-SAP-Automations) · [Atulya One](https://github.com/atulyaai/Atulya-Automation-Hub)
 
 ## 📜 License
 
