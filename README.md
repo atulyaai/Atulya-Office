@@ -58,15 +58,15 @@ flowchart LR
 | 2 | Word mail merge and document generation |
 | 3 | PowerPoint report generation from Excel |
 | 4 | Outlook attachments and approved email workflows |
-| 5 | Cross-platform add-in and Atulya One integration |
+| 5 | Cross-platform add-in, installer and template gallery |
 
 ## 🔐 Trust Rules
 
 Original files should be preserved by default. Email sending, macros and external AI calls must be visible and user-approved. Sensitive document content should support fully local processing.
 
-## 🔗 Ecosystem
+## 🔗 Independent Atulya Projects
 
-[Atulya DataClean](https://github.com/atulyaai/Atulya-Data-Scruber) · [Atulya Invoice](https://github.com/atulyaai/Atulya-Invoice) · [Atulya SAP](https://github.com/atulyaai/Atulya-SAP-Automations) · [Atulya One](https://github.com/atulyaai/Atulya-Automation-Hub)
+This is a standalone product. Discover other independent Atulya repositories: [Automation Hub](https://github.com/atulyaai/Atulya-Automation-Hub) · [ERP](https://github.com/atulyaai/Atulya-Accounting-ERP) · [GST](https://github.com/atulyaai/Atulya-GST-Suite) · [SAP](https://github.com/atulyaai/Atulya-SAP-Automations) · [HR](https://github.com/atulyaai/Atulya-HR-Suite) · [DataClean](https://github.com/atulyaai/Atulya-Data-Scruber) · [Invoice](https://github.com/atulyaai/Atulya-Invoice) · [Convert](https://github.com/atulyaai/Atulya-All-File-Converter) · [Host](https://github.com/atulyaai/Atulya-Launch)
 
 ## 📜 License
 
