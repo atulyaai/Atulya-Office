@@ -1,14 +1,14 @@
-# Atulya Office
+# Atulya-Office
 
 > **One-click automations for spreadsheets, documents, email and presentations.** 📊📝
 
-![Atulya - One-click business automation](assets/atulya-hero.png)
+![Atulya-Office banner](assets/atulya-hero.png)
 
 ![Status](https://img.shields.io/badge/status-roadmap-f59e0b)
 ![Apps](https://img.shields.io/badge/apps-Excel%20%7C%20Word%20%7C%20Outlook%20%7C%20PowerPoint-2563eb)
 ![Automation](https://img.shields.io/badge/automation-templates%20%7C%20macros%20%7C%20AI-14b8a6)
 
-Atulya Office is planned as a free toolbox for repetitive office work: clean sheets, generate letters, build presentations, organize mail attachments and turn plain-English requirements into formulas or approved automation steps.
+Atulya-Office is planned as a free toolbox for repetitive office work: clean sheets, generate letters, build presentations, organize mail attachments and turn plain-English requirements into formulas or approved automation steps.
 
 > 🚧 This repository is currently the product roadmap. Macros, add-ins and installers will be published as they are implemented and tested.
 
@@ -63,10 +63,6 @@ flowchart LR
 ## 🔐 Trust Rules
 
 Original files should be preserved by default. Email sending, macros and external AI calls must be visible and user-approved. Sensitive document content should support fully local processing.
-
-## 🔗 Independent Atulya Projects
-
-This is a standalone product. Discover other independent Atulya repositories: [Automation Hub](https://github.com/atulyaai/Atulya-Automation-Hub) · [ERP](https://github.com/atulyaai/Atulya-Accounting-ERP) · [GST](https://github.com/atulyaai/Atulya-GST-Suite) · [SAP](https://github.com/atulyaai/Atulya-SAP-Automations) · [HR](https://github.com/atulyaai/Atulya-HR-Suite) · [DataClean](https://github.com/atulyaai/Atulya-Data-Scruber) · [Invoice](https://github.com/atulyaai/Atulya-Invoice) · [Convert](https://github.com/atulyaai/Atulya-All-File-Converter) · [Host](https://github.com/atulyaai/Atulya-Launch)
 
 ## 📜 License
 
