@@ -6,7 +6,6 @@ import smtplib
 import zipfile
 import xml.etree.ElementTree as ET
 from datetime import datetime
-from email.message import EmailMessage
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -14,12 +13,9 @@ from email import encoders
 
 import openpyxl
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import PatternFill, Font
 from openpyxl.utils import get_column_letter
 import pandas as pd
 from pptx import Presentation
-from pptx.util import Inches, Pt
-
 from .utils import get_platform, ensure_file_exists, require_windows, get_win32_module
 
 
@@ -27,11 +23,6 @@ EXCEL_DATE_FORMATS = [
     "%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y",
     "%Y/%m/%d", "%d-%m-%Y", "%m-%d-%Y",
 ]
-
-WORD_NAMESPACE = {
-    "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
-}
-
 
 def merge_excel_files(input_paths, output_path):
     target = Workbook()
