@@ -1,6 +1,6 @@
 <!-- Hero Banner -->
 <div align="center">
-  <img src="assets/atulya-hero.png" alt="Atulya Office - Automation Suite" width="100%"/>
+  <img src="https://raw.githubusercontent.com/atulyaai/Atulya-Office/main/assets/office_hero_movie.jpg" alt="Atulya Office - Automation Suite" width="100%"/>
 </div>
 
 <div align="center">
@@ -63,6 +63,13 @@ atulya-office --help
 ---
 
 ## 🧰 Command Reference
+
+### 🤖 AI Formula Assistant & Template Automation
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/atulyaai/Atulya-Office/main/assets/office_formula_ai.jpg" alt="Prompt-to-Formula AI" width="100%"/>
+  <p><em>Turn natural language requests directly into validated Excel formulas and automated macro steps</em></p>
+</div>
 
 ### 📊 Excel Automation (`atulya-office excel`)
 
