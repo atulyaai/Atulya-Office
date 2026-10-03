@@ -1,8 +1,35 @@
-# Changelog
+# Changelog — Atulya-Office
 
-## v0.1.0 (2026-05-27)
-- Initial release
-- Excel: merge, split, compare, search, clean
-- Word: mail merge, convert
-- Outlook: search, send (SMTP), export
-- PowerPoint: batch slide generation, export
+All notable changes to Atulya-Office are documented here.
+Follows [Semantic Versioning](https://semver.org/) and [Keep a Changelog](https://keepachangelog.com/).
+
+---
+
+## [Unreleased]
+- PowerPoint slide auto-builder from bullet list
+- Formula AI: natural language → Excel formula (local LLM)
+- Outlook calendar sync and meeting scheduler
+
+---
+
+## [v0.2.0] — 2026-09-10
+### Added
+- `excel clean` command: remove duplicates, fix formatting, fill blanks
+- `excel merge` command: merge multiple sheets into one
+- `word fill` command: fill Word template with CSV data
+- `outlook sort` command: auto-sort attachments by sender/date
+- Formula AI stub: `excel formula "sum of column B where C > 100"`
+- Amber gold Cinzel typing SVG header in README
+
+### Changed
+- CLI restructured from flat script to `atulya-office` entry point
+- All commands now support `--dry-run` flag
+
+---
+
+## [v0.1.0] — 2026-08-01
+### Added
+- Initial CLI scaffold
+- Excel sheet reader/writer using `openpyxl`
+- Word document template engine using `python-docx`
+- Basic README and LICENSE
