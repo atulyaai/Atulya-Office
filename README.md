@@ -1,12 +1,28 @@
-# Atulya-Office
+<!-- Hero Banner -->
+<div align="center">
+  <img src="assets/atulya-hero.png" alt="Atulya Office - Automation Suite" width="100%"/>
+</div>
 
-> **One-click automations for spreadsheets, documents, email and presentations.** 📊📝
+<div align="center">
+  <h1>
+    <img src="https://readme-typing-svg.herokuapp.com?font=Cinzel&weight=700&size=40&duration=4000&pause=1000&color=F7931A&center=true&vCenter=true&width=700&height=75&lines=ATULYA+OFFICE;EXCEL+%2B+WORD+%2B+OUTLOOK+AUTOMATION;PROMPT-TO-FORMULA+AI;अतुल्य+ऑफिस" alt="Atulya Office — Automation Suite" />
+  </h1>
+</div>
 
-![Atulya-Office banner](assets/atulya-hero.png)
+<p align="center">
+  <em><strong>अतुल्य</strong> (Atulya) — Peerless &nbsp;·&nbsp; <strong>Office</strong> — Desktop productivity elevated</em><br/>
+  <strong>One-click local automations for spreadsheets, documents, email, and presentations: clean sheets, merge documents, sort attachments, and prompt-to-formula AI.</strong>
+</p>
 
-![Status](https://img.shields.io/badge/status-roadmap-f59e0b)
-![Apps](https://img.shields.io/badge/apps-Excel%20%7C%20Word%20%7C%20Outlook%20%7C%20PowerPoint-2563eb)
-![Automation](https://img.shields.io/badge/automation-templates%20%7C%20macros%20%7C%20AI-14b8a6)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F7931A.svg?style=flat-square" alt="MIT License"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/Status-Roadmap-f59e0b.svg?style=flat-square" alt="Roadmap"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/Apps-Excel%20%7C%20Word%20%7C%20Outlook%20%7C%20PowerPoint-blue.svg?style=flat-square" alt="Supported Apps"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/Privacy-100%25_Local_Processing-success.svg?style=flat-square" alt="Local First"/></a>
+  <img src="https://img.shields.io/badge/Made_in-India_🇮🇳-FF9933.svg?style=flat-square" alt="Made in India"/>
+</p>
+
+---
 
 Atulya-Office is planned as a free toolbox for repetitive office work: clean sheets, generate letters, build presentations, organize mail attachments and turn plain-English requirements into formulas or approved automation steps.
 
