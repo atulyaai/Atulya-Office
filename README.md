@@ -1,6 +1,6 @@
 <!-- Hero Banner -->
 <div align="center">
-  <img src="https://raw.githubusercontent.com/atulyaai/Atulya-Office/main/assets/office_hero.jpg" alt="Atulya Office - Automation Suite" width="100%"/>
+  <img src="assets/atulya-hero.png" alt="Atulya Office — Document, Spreadsheet & Email Automation" width="100%"/>
 </div>
 
 <div align="center">
