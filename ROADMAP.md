@@ -1,16 +1,20 @@
-# Roadmap
+# Roadmap — Atulya-Office
 
-## v0.2.0
-- Excel chart generation
-- Outlook rule-based auto-archive
-- PowerPoint template library
+## ✅ Completed
+- [x] Excel clean, merge, duplicate removal
+- [x] Word template fill from CSV
+- [x] Outlook attachment sort by sender/date
+- [x] Formula AI stub
+- [x] CLI entry point `atulya-office`
 
-## v0.3.0
-- GUI dashboard (Tkinter)
-- One-click workflow presets
-- Plugin system for custom scripts
+## 🔄 In Progress
+- [ ] PowerPoint auto-builder (bullets → slides)
+- [ ] Full Formula AI with local LLM backend
 
-## v1.0.0
-- Cross-platform Office 365 Graph API support
-- Batch email campaign tool
-- Advanced Excel formula injection
+## 🔮 Planned
+- [ ] Google Sheets support (OAuth)
+- [ ] PDF export from any Office format
+- [ ] GUI (drag-drop files onto tool)
+- [ ] Outlook email summariser (AI)
+- [ ] Batch processing with progress bar
+- [ ] Integration with Atulya-Tantra (voice → office command)
