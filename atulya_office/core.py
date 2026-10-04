@@ -5,6 +5,7 @@ import shutil
 import smtplib
 import zipfile
 import xml.etree.ElementTree as ET
+from xml.sax.saxutils import escape as xml_escape
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -190,19 +191,16 @@ def _get_docx_text(docx_path):
 
 def _replace_docx_placeholders(docx_path, replacements, output_path):
     ensure_file_exists(docx_path)
-    shutil.copy2(docx_path, output_path)
-    with zipfile.ZipFile(output_path, "r") as zin:
-        doc_xml = zin.read("word/document.xml").decode("utf-8")
-        for key, value in replacements.items():
-            placeholder = "{{" + key + "}}"
-            doc_xml = doc_xml.replace(placeholder, str(value))
+    with zipfile.ZipFile(docx_path, "r") as zin:
+        items = [(item, zin.read(item.filename)) for item in zin.infolist()]
     with zipfile.ZipFile(output_path, "w", zipfile.ZIP_DEFLATED) as zout:
-        with zipfile.ZipFile(output_path, "r") as zin:
-            for item in zin.infolist():
-                data = zin.read(item.filename)
-                if item.filename == "word/document.xml":
-                    data = doc_xml.encode("utf-8")
-                zout.writestr(item, data)
+        for item, data in items:
+            if item.filename == "word/document.xml":
+                doc_xml = data.decode("utf-8")
+                for key, value in replacements.items():
+                    doc_xml = doc_xml.replace("{{" + key + "}}", xml_escape(str(value)))
+                data = doc_xml.encode("utf-8")
+            zout.writestr(item, data)
 
 
 def merge_word_docx(template_path, data_path, output_dir):
@@ -354,7 +352,14 @@ def export_ppt(input_path, output_dir, format_type="png"):
     base_name = os.path.splitext(os.path.basename(input_path))[0]
     exported = []
     for i, slide in enumerate(prs.slides, start=1):
-        if format_type in ("png", "jpg", "jpeg"):
+        if format_type == "txt":
+            out_path = os.path.join(output_dir, f"{base_name}_slide_{i}.txt")
+            with open(out_path, "w", encoding="utf-8") as f:
+                for shape in slide.shapes:
+                    if shape.has_text_frame:
+                        f.write(shape.text_frame.text + "\n")
+            exported.append(out_path)
+        elif format_type in ("png", "jpg", "jpeg"):
             ext = "png" if format_type == "png" else "jpg"
             out_path = os.path.join(output_dir, f"{base_name}_slide_{i}.{ext}")
             try:
@@ -378,3 +383,36 @@ def export_ppt(input_path, output_dir, format_type="png"):
                         f.write(shape.text_frame.text + "\n\n")
             exported.append(out_path)
     return exported
+
+
+def build_ppt_from_outline(outline_path, output_path):
+    """Build a deck from a text outline.
+
+    Lines starting with '# ' begin a new slide (the title); '- ' or '* '
+    lines are bullets, indented by two spaces per nesting level.
+    """
+    ensure_file_exists(outline_path)
+    slides = []
+    with open(outline_path, encoding="utf-8") as f:
+        for raw in f:
+            line = raw.rstrip()
+            if not line.strip():
+                continue
+            if line.startswith("# "):
+                slides.append((line[2:].strip(), []))
+            elif slides and line.lstrip()[:2] in ("- ", "* "):
+                level = (len(line) - len(line.lstrip(" "))) // 2
+                slides[-1][1].append((min(level, 4), line.lstrip()[2:].strip()))
+    if not slides:
+        raise ValueError("Outline has no slides (start each slide with '# Title')")
+    prs = Presentation()
+    for title, bullets in slides:
+        slide = prs.slides.add_slide(prs.slide_layouts[1])
+        slide.shapes.title.text = title
+        tf = slide.placeholders[1].text_frame
+        for i, (level, text) in enumerate(bullets):
+            para = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+            para.text = text
+            para.level = level
+    prs.save(output_path)
+    return output_path

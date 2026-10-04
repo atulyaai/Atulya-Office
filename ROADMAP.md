@@ -8,7 +8,7 @@
 - [x] CLI entry point `atulya-office`
 
 ## 🔄 In Progress
-- [ ] PowerPoint auto-builder (bullets → slides)
+- [x] PowerPoint auto-builder (`atulya-office ppt build outline.txt`)
 - [ ] Full Formula AI with local LLM backend
 
 ## 🔮 Planned

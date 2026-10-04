@@ -238,6 +238,17 @@ def batch(template, data, output_dir):
     console.print(f"[green]Presentations generated in:[/green] {result}")
 
 
+@ppt.command(help="Build a deck from a text outline (# Title, - bullets)")
+@click.argument("outline", type=click.Path(exists=True))
+@click.option("-o", "--output", default="deck.pptx", help="Output .pptx path")
+def build(outline, output):
+    try:
+        result = core.build_ppt_from_outline(outline, output)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    console.print(f"[green]Deck written to:[/green] {result}")
+
+
 @ppt.command(help="Export slides to images or text")
 @click.argument("input_path", type=click.Path(exists=True))
 @click.option("-o", "--output-dir", default="ppt_export", help="Output directory")

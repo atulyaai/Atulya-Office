@@ -6,7 +6,10 @@ Follows [Semantic Versioning](https://semver.org/) and [Keep a Changelog](https:
 ---
 
 ## [Unreleased]
-- PowerPoint slide auto-builder from bullet list
+- Added `ppt build` (text outline → slides)
+- Fixed: Word mail merge corrupted output (zip read/write on same file) and now XML-escapes values
+- Fixed: `ppt export -f txt` produced nothing
+- Added pytest suite
 - Formula AI: natural language → Excel formula (local LLM)
 - Outlook calendar sync and meeting scheduler
 
