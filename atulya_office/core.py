@@ -2,6 +2,7 @@ import os
 import re
 import csv
 import shutil
+import subprocess
 import smtplib
 import zipfile
 import xml.etree.ElementTree as ET
@@ -203,7 +204,7 @@ def _replace_docx_placeholders(docx_path, replacements, output_path):
             zout.writestr(item, data)
 
 
-def merge_word_docx(template_path, data_path, output_dir):
+def merge_word_docx(template_path, data_path, output_dir, progress=None):
     ensure_file_exists(template_path)
     ensure_file_exists(data_path)
     os.makedirs(output_dir, exist_ok=True)
@@ -214,6 +215,8 @@ def merge_word_docx(template_path, data_path, output_dir):
         replacements = {col: str(row[col]) for col in columns}
         out_path = os.path.join(output_dir, f"{base_name}_{idx + 1}.docx")
         _replace_docx_placeholders(template_path, replacements, out_path)
+        if progress:
+            progress(idx + 1, len(df))
     return output_dir
 
 
@@ -225,10 +228,9 @@ def convert_docx(input_path, output_path):
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(text)
     elif ext == ".pdf":
-        raise RuntimeError(
-            "DOCX to PDF conversion requires LibreOffice or Word on the system. "
-            "Use .txt output for cross-platform text extraction."
-        )
+        pdf = export_pdf(input_path, os.path.dirname(os.path.abspath(output_path)))
+        if os.path.abspath(pdf) != os.path.abspath(output_path):
+            shutil.move(pdf, output_path)
     else:
         raise ValueError(f"Unsupported output format: {ext}")
     return output_path
@@ -320,7 +322,7 @@ def export_emails(output_path, subject=None, sender=None,
     return output_path
 
 
-def batch_ppt(template_path, data_path, output_dir):
+def batch_ppt(template_path, data_path, output_dir, progress=None):
     ensure_file_exists(template_path)
     ensure_file_exists(data_path)
     os.makedirs(output_dir, exist_ok=True)
@@ -342,6 +344,8 @@ def batch_ppt(template_path, data_path, output_dir):
                                     )
         out_path = os.path.join(output_dir, f"{base_name}_{idx + 1}.pptx")
         prs.save(out_path)
+        if progress:
+            progress(idx + 1, len(df))
     return output_dir
 
 
@@ -416,3 +420,67 @@ def build_ppt_from_outline(outline_path, output_path):
             para.level = level
     prs.save(output_path)
     return output_path
+
+
+def export_pdf(input_path, output_dir):
+    """Convert any Office file (docx/xlsx/pptx/...) to PDF via LibreOffice."""
+    ensure_file_exists(input_path)
+    soffice = shutil.which("soffice") or shutil.which("libreoffice")
+    if not soffice:
+        raise RuntimeError("PDF export needs LibreOffice ('soffice') on PATH.")
+    os.makedirs(output_dir, exist_ok=True)
+    result = subprocess.run(
+        [soffice, "--headless", "--convert-to", "pdf", "--outdir", output_dir, input_path],
+        capture_output=True, text=True, timeout=180,
+    )
+    out = os.path.join(output_dir, os.path.splitext(os.path.basename(input_path))[0] + ".pdf")
+    if result.returncode != 0 or not os.path.exists(out):
+        raise RuntimeError(f"LibreOffice conversion failed: {result.stderr.strip()}")
+    return out
+
+
+_FORMULA_RULES = [
+    (r"(?:sum|total) (?:of )?(?:column )?([A-Z]+)$", lambda m: f"=SUM({m[1]}:{m[1]})"),
+    (r"(?:average|mean) (?:of )?(?:column )?([A-Z]+)$", lambda m: f"=AVERAGE({m[1]}:{m[1]})"),
+    (r"(?:count|number of) (?:values |rows )?(?:in )?(?:column )?([A-Z]+)$", lambda m: f"=COUNTA({m[1]}:{m[1]})"),
+    (r"(?:max|maximum|largest) (?:of )?(?:column )?([A-Z]+)$", lambda m: f"=MAX({m[1]}:{m[1]})"),
+    (r"(?:min|minimum|smallest) (?:of )?(?:column )?([A-Z]+)$", lambda m: f"=MIN({m[1]}:{m[1]})"),
+    (r"sum (?:of )?(?:column )?([A-Z]+) where (?:column )?([A-Z]+) (?:is|=|equals) (.+)$",
+     lambda m: f'=SUMIF({m[2]}:{m[2]},"{m[3].strip(chr(34))}",{m[1]}:{m[1]})'),
+    (r"count (?:rows )?where (?:column )?([A-Z]+) (?:is|=|equals) (.+)$",
+     lambda m: f'=COUNTIF({m[1]}:{m[1]},"{m[2].strip(chr(34))}")'),
+]
+
+
+def formula_ai(request, model=None, host="http://localhost:11434"):
+    """Turn a plain-English request into an Excel formula.
+
+    Uses a local Ollama model when `model` is given; otherwise rule patterns.
+    """
+    request = request.strip()
+    if model:
+        import json
+        import urllib.request
+        prompt = ("Reply with ONLY one Excel formula starting with '=' and no "
+                  "explanation. Request: " + request)
+        req = urllib.request.Request(
+            host.rstrip("/") + "/api/generate",
+            data=json.dumps({"model": model, "prompt": prompt, "stream": False}).encode(),
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            text = json.loads(resp.read())["response"].strip()
+        for line in text.splitlines():
+            line = line.strip().strip("`")
+            if line.startswith("="):
+                return line
+        raise ValueError(f"Model did not return a formula: {text!r}")
+    for pattern, build in _FORMULA_RULES:
+        m = re.match(pattern, request, re.IGNORECASE)
+        if m:
+            groups = [m[0]] + [g.upper() if i < (3 if "where" in pattern else 1) and len(g) <= 3 and g.isalpha() else g
+                               for i, g in enumerate(m.groups())]
+            class _M:
+                def __getitem__(self, i): return groups[i]
+            return build(_M())
+    raise ValueError("Couldn't understand the request; pass --model to use a local LLM.")

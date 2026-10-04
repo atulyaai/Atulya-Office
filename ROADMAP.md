@@ -9,12 +9,12 @@
 
 ## 🔄 In Progress
 - [x] PowerPoint auto-builder (`atulya-office ppt build outline.txt`)
-- [ ] Full Formula AI with local LLM backend
+- [x] Formula AI (`atulya-office formula "..." [--model llama3]`, rules + local Ollama)
 
 ## 🔮 Planned
 - [ ] Google Sheets support (OAuth)
-- [ ] PDF export from any Office format
+- [x] PDF export (`atulya-office pdf FILE...`, needs LibreOffice)
 - [ ] GUI (drag-drop files onto tool)
 - [ ] Outlook email summariser (AI)
-- [ ] Batch processing with progress bar
+- [x] Batch processing with progress bar
 - [ ] Integration with Atulya-Tantra (voice → office command)

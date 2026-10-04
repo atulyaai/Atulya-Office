@@ -10,7 +10,8 @@ Follows [Semantic Versioning](https://semver.org/) and [Keep a Changelog](https:
 - Fixed: Word mail merge corrupted output (zip read/write on same file) and now XML-escapes values
 - Fixed: `ppt export -f txt` produced nothing
 - Added pytest suite
-- Formula AI: natural language → Excel formula (local LLM)
+- Added `formula` (plain English → Excel formula; rules or local Ollama model)
+- Added `pdf` export via LibreOffice; real progress bars for batch merge/ppt
 - Outlook calendar sync and meeting scheduler
 
 ---

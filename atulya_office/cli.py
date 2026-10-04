@@ -134,9 +134,10 @@ def word():
 @click.option("-o", "--output-dir", default="word_output", help="Output directory")
 def merge(template, data, output_dir):
     with Progress() as progress:
-        task = progress.add_task("Generating documents...", total=1)
-        result = core.merge_word_docx(template, data, output_dir)
-        progress.update(task, completed=1)
+        task = progress.add_task("Generating documents...", total=None)
+        result = core.merge_word_docx(
+            template, data, output_dir,
+            progress=lambda done, total: progress.update(task, completed=done, total=total))
     console.print(f"[green]Documents generated in:[/green] {result}")
 
 
@@ -232,9 +233,10 @@ def ppt():
 @click.option("-o", "--output-dir", default="ppt_output", help="Output directory")
 def batch(template, data, output_dir):
     with Progress() as progress:
-        task = progress.add_task("Generating presentations...", total=1)
-        result = core.batch_ppt(template, data, output_dir)
-        progress.update(task, completed=1)
+        task = progress.add_task("Generating presentations...", total=None)
+        result = core.batch_ppt(
+            template, data, output_dir,
+            progress=lambda done, total: progress.update(task, completed=done, total=total))
     console.print(f"[green]Presentations generated in:[/green] {result}")
 
 
@@ -261,6 +263,32 @@ def export(input_path, output_dir, format_type):
         exported = core.export_ppt(input_path, output_dir, format_type)
         progress.update(task, completed=1)
     console.print(f"[green]Exported {len(exported)} slide(s) to:[/green] {output_dir}")
+
+
+@main.command(help="Export Office files to PDF (needs LibreOffice)")
+@click.argument("inputs", nargs=-1, type=click.Path(exists=True), required=True)
+@click.option("-o", "--output-dir", default="pdf_output", help="Output directory")
+def pdf(inputs, output_dir):
+    try:
+        with Progress() as progress:
+            task = progress.add_task("Converting...", total=len(inputs))
+            for path in inputs:
+                core.export_pdf(path, output_dir)
+                progress.update(task, advance=1)
+    except RuntimeError as e:
+        raise click.ClickException(str(e))
+    console.print(f"[green]PDFs written to:[/green] {output_dir}")
+
+
+@main.command(help="Turn plain English into an Excel formula")
+@click.argument("request")
+@click.option("--model", default=None, help="Local Ollama model (e.g. llama3) instead of built-in rules")
+@click.option("--host", default="http://localhost:11434", help="Ollama host")
+def formula(request, model, host):
+    try:
+        console.print(core.formula_ai(request, model=model, host=host), markup=False)
+    except Exception as e:
+        raise click.ClickException(str(e))
 
 
 main.add_command(excel)

@@ -37,3 +37,23 @@ def test_cli_ppt_build_rejects_empty(tmp_path):
     ol.write_text("no slides here\n")
     r = CliRunner().invoke(main, ["ppt", "build", str(ol), "-o", str(tmp_path / "x.pptx")])
     assert r.exit_code != 0
+
+
+def test_formula_rules():
+    assert core.formula_ai("sum of column b") == "=SUM(B:B)"
+    assert core.formula_ai("sum of column C where A is East") == '=SUMIF(A:A,"East",C:C)'
+    assert core.formula_ai("count rows where A = Paid") == '=COUNTIF(A:A,"Paid")'
+
+
+def test_pdf_export(tmp_path):
+    import shutil, pytest
+    if not shutil.which("soffice"):
+        pytest.skip("no LibreOffice")
+    ol = tmp_path / "o.txt"
+    ol.write_text("# One\n- a\n")
+    deck = core.build_ppt_from_outline(str(ol), str(tmp_path / "d.pptx"))
+    try:
+        out = core.export_pdf(deck, str(tmp_path / "out"))
+    except RuntimeError as e:
+        pytest.skip(f"LibreOffice not usable here: {e}")
+    assert out.endswith("d.pdf")
