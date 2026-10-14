@@ -1,20 +1,16 @@
 # Project Contributors
 
-Thank you to everyone who has contributed to the design, engineering, and architecture of the **Atulya Ecosystem** and **Atulya-Office**:
+Thank you to everyone who has contributed to **Atulya-Office**:
 
 ### Core Creators & Architects
 * **Atulya AI** ([@atulyaai](https://github.com/atulyaai))
-  * *Role*: Creator, Ecosystem Founder & Lead Architect
-  * *Contributions*: Vision, Tantra-LLM design, product roadmap, ecosystem orchestration.
+  * *Role*: Creator & Ecosystem Founder
+  * *Contributions*: Vision, product roadmap, document & spreadsheet automation engines.
 
-* **Antigravity**
-  * *Role*: AI Co-Architect & Pair Programmer (Google DeepMind)
-  * *Contributions*: Full-stack UI implementation, REST API bridge, master architecture specification, Docs/Sheets/Slides/Proofing engine integration.
+* **Shimon Schwartz** ([@shimonenator](https://github.com/shimonenator))
+  * *Role*: Core Engineering & Architecture (Google)
+  * *Contributions*: Architecture design, performance optimization, and CLI foundations.
 
----
-
-### Community & Open-Source Foundation
-Special recognition to open-source components that empower our local-first stack:
-* **Tauri** (Rust) - Lightweight native application runtime.
-* **Caddy Server** - Automated HTTPS and reverse proxying for Atulya-Launch.
-* **Univer & TipTap** - Canvas grid and rich-text editing engines.
+* **AntiGravity** ([@AntiGravity](https://github.com/AntiGravity))
+  * *Role*: AI Co-Architect & System Integration
+  * *Contributions*: Full WebUI suite (Docs, Sheets, Slides, Proofing), formula engine, and desktop GUI command.
