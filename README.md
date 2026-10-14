@@ -100,6 +100,21 @@ atulya-office --help
 
 ---
 
+### 🖥️ Interactive WebUI Suite (`atulya-office gui`)
+
+Launch the unified desktop web interface in your default browser:
+
+```bash
+atulya-office gui
+```
+
+- **📝 Tantra Docs**: Full rich-text document editor with real-time statistics and PDF export.
+- **📊 Tantra Sheets**: Spreadsheet canvas with 500+ formulas and natural language AI formula generation.
+- **📽️ Tantra Slides**: Interactive presentation stage and automated outline-to-deck builder.
+- **🔍 Tantra Proof**: Proofing & language analysis for readability, conciseness, and passive voice.
+
+---
+
 ## 🔒 Security & Privacy
 
 - **100% On-Device Processing**: File operations, merges, and text extractions run strictly on your local CPU.
@@ -107,6 +122,13 @@ atulya-office --help
 - **Safe Previews**: Source files are preserved; modified files are created alongside or in designated output folders.
 
 ---
+
+## 👥 Contributors & Credits
+
+| Contributor | Role | Affiliation |
+|---|---|---|
+| **Atulya AI** ([@atulyaai](https://github.com/atulyaai)) | Project Lead & Core Architecture | [Atulya AI](https://github.com/atulyaai) |
+| **Antigravity** | AI Co-Architect & System Pair Programmer | Google DeepMind |
 
 ---
 

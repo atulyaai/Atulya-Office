@@ -14,7 +14,7 @@
 ## 🔮 Planned
 - [ ] Google Sheets support (OAuth)
 - [x] PDF export (`atulya-office pdf FILE...`, needs LibreOffice)
-- [ ] GUI (drag-drop files onto tool)
+- [x] Interactive WebUI suite (`atulya-office gui` — Docs, Sheets, Slides, Proofing, and Tantra-AI)
 - [ ] Outlook email summariser (AI)
 - [x] Batch processing with progress bar
 - [ ] Integration with Atulya-Tantra (voice → office command)

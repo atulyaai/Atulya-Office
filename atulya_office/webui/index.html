@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atulya-Tantra — Next-Gen AI Office Suite</title>
+    <meta name="description" content="Free, local-first, private AI Office Suite powered by Tantra-LLM. Includes Docs, Sheets, Slides, and Proofing Studio.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+    <div id="app-container" class="app-layout">
+        <!-- TOP SYSTEM & TITLEBAR -->
+        <header id="system-titlebar" class="system-titlebar">
+            <div class="titlebar-left">
+                <div class="brand-badge">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">Atulya<span class="accent-text">Tantra</span></span>
+                    <span class="suite-tag">OFFICE SUITE</span>
+                </div>
+                <div class="file-info">
+                    <span id="current-doc-title" contenteditable="true" spellcheck="false" title="Click to rename document">Untitled Document</span>
+                    <span class="status-indicator" id="save-status"><span class="dot-online"></span> Saved Locally</span>
+                </div>
+            </div>
+
+            <!-- Suite App Switcher Tabs -->
+            <nav id="suite-switcher" class="suite-switcher">
+                <button id="tab-docs" class="switcher-btn active" data-app="docs" title="Tantra Docs (Word)">
+                    <span class="tab-icon">📝</span> Docs
+                </button>
+                <button id="tab-sheets" class="switcher-btn" data-app="sheets" title="Tantra Sheets (Excel)">
+                    <span class="tab-icon">📊</span> Sheets
+                </button>
+                <button id="tab-slides" class="switcher-btn" data-app="slides" title="Tantra Slides (PowerPoint)">
+                    <span class="tab-icon">📽️</span> Slides
+                </button>
+                <button id="tab-proof" class="switcher-btn" data-app="proof" title="Tantra Proofing & Language Studio">
+                    <span class="tab-icon">🔍</span> Proofing
+                </button>
+            </nav>
+
+            <div class="titlebar-right">
+                <div id="model-status-badge" class="model-badge" title="Tantra Model Engine Status">
+                    <span class="pulse-indicator"></span>
+                    <span id="model-status-text">Tantra Engine (Local)</span>
+                </div>
+                <button id="btn-contributors" class="icon-btn" title="Contributors & Credits">👥</button>
+                <button id="btn-theme-toggle" class="icon-btn" title="Toggle Theme">🌓</button>
+                <button id="btn-toggle-ai" class="btn-primary-gradient" title="Open Tantra AI Copilot">
+                    <span class="sparkle">✨</span> Tantra AI
+                </button>
+            </div>
+        </header>
+
+        <!-- OFFICE RIBBON TOOLBAR -->
+        <section id="office-ribbon" class="office-ribbon">
+            <!-- Ribbon for Docs -->
+            <div id="ribbon-docs" class="ribbon-group-container active">
+                <div class="ribbon-group">
+                    <button id="doc-btn-bold" class="ribbon-btn" title="Bold (Ctrl+B)"><b>B</b></button>
+                    <button id="doc-btn-italic" class="ribbon-btn" title="Italic (Ctrl+I)"><i>I</i></button>
+                    <button id="doc-btn-underline" class="ribbon-btn" title="Underline (Ctrl+U)"><u>U</u></button>
+                    <button id="doc-btn-strikethrough" class="ribbon-btn" title="Strikethrough"><s>S</s></button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="doc-btn-h1" class="ribbon-btn text-btn">H1</button>
+                    <button id="doc-btn-h2" class="ribbon-btn text-btn">H2</button>
+                    <button id="doc-btn-p" class="ribbon-btn text-btn">P</button>
+                    <button id="doc-btn-quote" class="ribbon-btn text-btn">“ ”</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="doc-btn-ul" class="ribbon-btn" title="Bullet List">• List</button>
+                    <button id="doc-btn-ol" class="ribbon-btn" title="Numbered List">1. List</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="doc-btn-ai-summarize" class="ribbon-btn special-btn">✨ Summarize</button>
+                    <button id="doc-btn-ai-tone" class="ribbon-btn special-btn">✨ Tone Rewrite</button>
+                    <button id="doc-btn-export-pdf" class="ribbon-btn action-btn">📥 Export PDF</button>
+                </div>
+            </div>
+
+            <!-- Ribbon for Sheets -->
+            <div id="ribbon-sheets" class="ribbon-group-container">
+                <div class="ribbon-group">
+                    <button id="sheet-btn-bold" class="ribbon-btn"><b>B</b></button>
+                    <button id="sheet-btn-italic" class="ribbon-btn"><i>I</i></button>
+                    <button id="sheet-btn-align-left" class="ribbon-btn">⇤ Left</button>
+                    <button id="sheet-btn-align-center" class="ribbon-btn">≡ Center</button>
+                    <button id="sheet-btn-align-right" class="ribbon-btn">⇥ Right</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="sheet-btn-add-row" class="ribbon-btn text-btn">+ Row</button>
+                    <button id="sheet-btn-add-col" class="ribbon-btn text-btn">+ Column</button>
+                    <button id="sheet-btn-clear" class="ribbon-btn text-btn">Clear Cell</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="sheet-btn-formula-ai" class="ribbon-btn special-btn">⚡ AI Formula Generator</button>
+                    <button id="sheet-btn-export-csv" class="ribbon-btn action-btn">📥 Export CSV</button>
+                </div>
+            </div>
+
+            <!-- Ribbon for Slides -->
+            <div id="ribbon-slides" class="ribbon-group-container">
+                <div class="ribbon-group">
+                    <button id="slide-btn-new" class="ribbon-btn text-btn">+ New Slide</button>
+                    <button id="slide-btn-delete" class="ribbon-btn text-btn">🗑️ Delete Slide</button>
+                    <button id="slide-btn-duplicate" class="ribbon-btn text-btn">📋 Duplicate</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="slide-theme-gradient" class="ribbon-btn text-btn active">Aurora</button>
+                    <button id="slide-theme-dark" class="ribbon-btn text-btn">Obsidian</button>
+                    <button id="slide-theme-light" class="ribbon-btn text-btn">Clean Crisp</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <button id="slide-btn-ai-deck" class="ribbon-btn special-btn">✨ Generate Deck from Topic</button>
+                    <button id="slide-btn-present" class="ribbon-btn action-btn">▶️ Present Slides</button>
+                </div>
+            </div>
+
+            <!-- Ribbon for Proofing -->
+            <div id="ribbon-proof" class="ribbon-group-container">
+                <div class="ribbon-group">
+                    <button id="proof-btn-run" class="ribbon-btn special-btn">🔍 Run Deep Analysis</button>
+                    <button id="proof-btn-simplify" class="ribbon-btn text-btn">Simplify Vocabulary</button>
+                    <button id="proof-btn-active-voice" class="ribbon-btn text-btn">Fix Passive Voice</button>
+                </div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-group">
+                    <span class="ribbon-label">Tone:</span>
+                    <button id="proof-tone-exec" class="ribbon-btn text-btn">Executive</button>
+                    <button id="proof-tone-academic" class="ribbon-btn text-btn">Academic</button>
+                    <button id="proof-tone-casual" class="ribbon-btn text-btn">Casual</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN WORKSPACE -->
+        <main id="main-workspace" class="main-workspace">
+            <!-- 1. DOCS VIEW -->
+            <section id="view-docs" class="app-view active">
+                <div class="doc-canvas-wrapper">
+                    <div id="doc-editor" class="doc-page-canvas" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true">
+                        <h1>Executive Brief: Atulya Ecosystem Launch</h1>
+                        <p>Welcome to <strong>Atulya-Tantra</strong>, your completely local, private, and free AI Office Suite designed for high-performance productivity.</p>
+                        <h2>Strategic Objectives</h2>
+                        <p>The system is built on zero-cloud principles, ensuring your sensitive documents, financial spreadsheets, and presentation decks never leave your workstation.</p>
+                        <blockquote>"High performance with minimum compute overhead."</blockquote>
+                        <p>Highlight any paragraph and click <em>Tantra AI</em> to summarize, rephrase, or check spelling and grammar in real-time.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. SHEETS VIEW -->
+            <section id="view-sheets" class="app-view">
+                <div class="sheets-wrapper">
+                    <!-- Formula Bar -->
+                    <div class="formula-bar">
+                        <div class="cell-address-box" id="active-cell-address">A1</div>
+                        <div class="formula-symbol">fx</div>
+                        <input type="text" id="formula-input" class="formula-input" placeholder="Enter value or formula like =SUM(A1:A5)..." spellcheck="false">
+                        <button id="btn-apply-formula" class="btn-pill">Apply</button>
+                    </div>
+
+                    <!-- Spreadsheet Table -->
+                    <div class="table-container" id="sheets-table-container">
+                        <table id="spreadsheet-table" class="spreadsheet-table">
+                            <thead id="sheets-thead">
+                                <!-- Generated Dynamically -->
+                            </thead>
+                            <tbody id="sheets-tbody">
+                                <!-- Generated Dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. SLIDES VIEW -->
+            <section id="view-slides" class="app-view">
+                <div class="slides-studio">
+                    <!-- Slide Thumbnails Sidebar -->
+                    <aside class="slides-thumbnail-bar" id="slides-thumbnail-list">
+                        <!-- Thumbnails populated by JS -->
+                    </aside>
+
+                    <!-- Active Slide Stage -->
+                    <div class="slides-stage-area">
+                        <div id="active-slide-card" class="slide-canvas theme-gradient">
+                            <div class="slide-content-container">
+                                <h1 id="slide-title-input" contenteditable="true" spellcheck="false">Atulya-Tantra Ecosystem</h1>
+                                <p id="slide-subtitle-input" class="slide-subtitle" contenteditable="true" spellcheck="false">High-Performance, Local-First AI Productivity</p>
+                                <ul id="slide-bullets-input" class="slide-bullets" contenteditable="true">
+                                    <li>Native offline intelligence with TantraEngine</li>
+                                    <li>Runs smoothly on low-spec hardware without cloud latency</li>
+                                    <li>Zero subscription, fully customizable open-source stack</li>
+                                </ul>
+                            </div>
+                            <div class="slide-footer">
+                                <span class="slide-page-badge" id="slide-page-badge">Slide 1 of 3</span>
+                                <span class="slide-watermark">ATULYA-TANTRA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. PROOFING STUDIO VIEW -->
+            <section id="view-proof" class="app-view">
+                <div class="proofing-studio">
+                    <div class="proof-panel-left">
+                        <div class="panel-header">
+                            <h3>Source Text to Analyze</h3>
+                            <button id="btn-proof-sync-doc" class="btn-ghost-sm">Sync from Docs</button>
+                        </div>
+                        <textarea id="proof-input-text" class="proof-textarea" placeholder="Paste or type text to run grammar, tone, and readability analysis...">The results of the evaluation was done very rapidly in order to ensure that there are no major defects present in the project.</textarea>
+                    </div>
+
+                    <div class="proof-panel-right">
+                        <div class="panel-header">
+                            <h3>Tantra Proofing Intelligence</h3>
+                            <span id="proof-status-pill" class="badge-accent">Ready</span>
+                        </div>
+
+                        <!-- Readability Cards -->
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-label">Readability Score</span>
+                                <span class="metric-value" id="metric-readability">82</span>
+                                <span class="metric-sub" id="metric-grade">Easy to Read</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-label">Word Count</span>
+                                <span class="metric-value" id="metric-words">23</span>
+                                <span class="metric-sub" id="metric-chars">135 characters</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-label">Passive Voice</span>
+                                <span class="metric-value" id="metric-passive">Flagged</span>
+                                <span class="metric-sub">Action suggested</span>
+                            </div>
+                        </div>
+
+                        <!-- Suggested Corrections List -->
+                        <div class="suggestions-container">
+                            <h4>Suggested Optimizations</h4>
+                            <div id="suggestions-list" class="suggestions-list">
+                                <div class="suggestion-item">
+                                    <div class="sugg-header">
+                                        <span class="sugg-tag tag-concise">Conciseness</span>
+                                        <span class="sugg-target">"in order to"</span>
+                                    </div>
+                                    <p class="sugg-desc">Replace with <strong>"to"</strong> for direct clarity.</p>
+                                    <button class="btn-sugg-apply" onclick="applyQuickProofFix('in order to', 'to')">Apply Fix</button>
+                                </div>
+                                <div class="suggestion-item">
+                                    <div class="sugg-header">
+                                        <span class="sugg-tag tag-clarity">Clarity</span>
+                                        <span class="sugg-target">"was done"</span>
+                                    </div>
+                                    <p class="sugg-desc">Switch from passive to active voice.</p>
+                                    <button class="btn-sugg-apply" onclick="applyQuickProofFix('was done very rapidly', 'proceeded rapidly')">Apply Fix</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- TANTRA COPILOT SIDE DRAWER -->
+        <aside id="ai-drawer" class="ai-drawer">
+            <div class="drawer-header">
+                <div class="drawer-title">
+                    <span class="copilot-icon">⚡</span>
+                    <h3>Tantra CoPilot</h3>
+                </div>
+                <button id="btn-close-drawer" class="icon-btn" title="Close drawer">✕</button>
+            </div>
+
+            <div class="drawer-telemetry">
+                <div class="telemetry-item">
+                    <span>Engine:</span>
+                    <strong id="telemetry-engine">Tantra-LLM MoE</strong>
+                </div>
+                <div class="telemetry-item">
+                    <span>Mode:</span>
+                    <strong id="telemetry-quant">INT8 Quantized</strong>
+                </div>
+            </div>
+
+            <!-- Quick Action Chips -->
+            <div class="quick-prompts">
+                <button class="chip-btn" data-prompt="Summarize the current document into 3 key bullet points.">📌 Summarize</button>
+                <button class="chip-btn" data-prompt="Extract actionable next steps and assignees from this document.">📋 Action Items</button>
+                <button class="chip-btn" data-prompt="Rewrite this content into a professional, publication-ready tone.">💼 Polish Tone</button>
+                <button class="chip-btn" data-prompt="Identify any logical gaps or contradictions in this text.">🔍 Audit Logic</button>
+            </div>
+
+            <!-- Chat History -->
+            <div id="chat-messages" class="chat-messages">
+                <div class="chat-bubble ai">
+                    <div class="bubble-header">Tantra AI</div>
+                    <div class="bubble-body">
+                        Hello! I am connected to your local Tantra reasoning engine. Ask me to draft sections, solve spreadsheet formulas, create slides, or proof your writing.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Box -->
+            <div class="chat-input-area">
+                <textarea id="copilot-input" placeholder="Ask Tantra AI anything about your document..." rows="2"></textarea>
+                <button id="copilot-send" class="btn-send" title="Send (Enter)">➤</button>
+            </div>
+        </aside>
+
+        <!-- STATUS BAR -->
+        <footer id="system-statusbar" class="system-statusbar">
+            <div class="statusbar-left">
+                <span id="status-word-count">Words: 48</span>
+                <span class="status-divider">|</span>
+                <span id="status-reading-time">Reading time: ~1 min</span>
+                <span class="status-divider">|</span>
+                <span id="status-app-indicator">Active App: Tantra Docs</span>
+            </div>
+            <div class="statusbar-right">
+                <span class="status-badge-offline">🔒 100% Offline & Private</span>
+                <span class="status-divider">|</span>
+                <span>UTF-8</span>
+                <span class="status-divider">|</span>
+                <span>Zoom: 100%</span>
+            </div>
+        </footer>
+
+        <!-- MODAL: AI FORMULA GENERATOR (SHEETS) -->
+        <div id="modal-formula-ai" class="modal-backdrop">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>⚡ AI Spreadsheet Formula Generator</h3>
+                    <button class="modal-close-btn" onclick="closeFormulaModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-subtitle">Describe what calculation or comparison you want to perform in plain English:</p>
+                    <input type="text" id="ai-formula-query" class="modal-input" placeholder="e.g. Calculate total sales where region is North and profit > 500">
+                    <div id="formula-result-box" class="formula-result-box hidden">
+                        <span class="result-label">Generated Formula:</span>
+                        <code id="generated-formula-text">=SUMIFS(C:C, A:A, "North", D:D, ">500")</code>
+                        <p id="generated-formula-desc" class="result-explanation">Sums values in column C matching the specified criteria.</p>
+                        <button id="btn-insert-formula" class="btn-primary-gradient">Insert into Active Cell</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-run-formula-ai" class="btn-primary-gradient">Generate Formula</button>
+                    <button class="btn-ghost" onclick="closeFormulaModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: AI SLIDE DECK GENERATOR -->
+        <div id="modal-deck-ai" class="modal-backdrop">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>✨ AI Presentation Deck Builder</h3>
+                    <button class="modal-close-btn" onclick="closeDeckModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-subtitle">Enter a topic, project name, or paste meeting notes:</p>
+                    <input type="text" id="ai-deck-topic" class="modal-input" placeholder="e.g. Q4 Financial Strategy & Market Expansion">
+                    <div class="deck-options">
+                        <label>Number of Slides:
+                            <select id="deck-slide-count" class="modal-select">
+                                <option value="3">3 Slides (Executive Summary)</option>
+                                <option value="5">5 Slides (Standard Pitch)</option>
+                                <option value="8">8 Slides (Deep Dive)</option>
+                            </select>
+                        </label>
+                    </div>
+        <!-- MODAL: CONTRIBUTORS -->
+        <div id="modal-contributors" class="modal-backdrop">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>👥 Contributors & Architecture Credits</h3>
+                    <button class="modal-close-btn" onclick="closeContributorsModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-subtitle">Built with pride as an open-source, local-first ecosystem:</p>
+                    <div class="contributors-list" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                        <div class="contributor-card" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; display: flex; align-items: center; gap: 14px;">
+                            <div style="font-size: 28px;">⚡</div>
+                            <div>
+                                <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">Atulya AI (@atulyaai)</h4>
+                                <p style="font-size: 12px; color: var(--accent-blue); font-weight: 600;">Ecosystem Founder & Lead Architect</p>
+                                <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Core vision, Tantra-LLM, Atulya-OS, Atulya-Launch, and product roadmap.</p>
+                            </div>
+                        </div>
+
+                        <div class="contributor-card" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; display: flex; align-items: center; gap: 14px;">
+                            <div style="font-size: 28px;">🚀</div>
+                            <div>
+                                <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">Antigravity</h4>
+                                <p style="font-size: 12px; color: var(--accent-purple); font-weight: 600;">AI Co-Architect & System Pair Programmer (Google DeepMind)</p>
+                                <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Office suite architecture, REST API engine, Proofing/Sheets engine implementation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-primary-gradient" onclick="closeContributorsModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

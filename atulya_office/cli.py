@@ -291,6 +291,25 @@ def formula(request, model, host):
         raise click.ClickException(str(e))
 
 
+@main.command(help="Launch the interactive WebUI for Atulya-Office")
+@click.option("--port", default=8080, help="Port to run the WebUI server on")
+@click.option("--no-browser", is_flag=True, help="Don't automatically open the default browser")
+def gui(port, no_browser):
+    """Launch the Atulya-Office web interface in your browser."""
+    import webbrowser
+    import subprocess
+    from pathlib import Path
+
+    server_script = Path(__file__).parent / "webui" / "server.py"
+    console.print(f"[bold cyan]Starting Atulya-Office WebUI on http://127.0.0.1:{port}[/bold cyan]")
+    if not no_browser:
+        webbrowser.open(f"http://127.0.0.1:{port}/index.html")
+    try:
+        subprocess.run([sys.executable, str(server_script)])
+    except KeyboardInterrupt:
+        console.print("[yellow]WebUI stopped.[/yellow]")
+
+
 main.add_command(excel)
 main.add_command(word)
 main.add_command(outlook)
